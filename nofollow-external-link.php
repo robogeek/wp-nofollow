@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.1
+Version: 1.0.2
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -30,7 +30,7 @@ function dh_nf_admin_sidebar() {
 
 function dh_nf_admin_style() {
 	global $pluginsURI;
-	wp_register_style( 'dh_nf_admin_css', plugins_url( 'nofollow-for-external-link/css/admin-style.css' ) , false, '1.0' );
+	wp_register_style( 'dh_nf_admin_css', plugins_url( 'wp-nofollow/css/admin-style.css' ) , false, '1.0' );
 	wp_enqueue_style( 'dh_nf_admin_css' );
 }
 add_action( 'admin_enqueue_scripts', 'dh_nf_admin_style' );
@@ -44,7 +44,8 @@ function register_dh_nf_settings() {
 }
 
 function dh_nf_plugin_menu() {
-	add_options_page('Nofollow for external link', 'NoFollow ExtLink', 'manage_options', 'dh_nf_option_page', 'dh_nf_option_page_fn');
+	add_options_page('Nofollow for external link', 'NoFollow ExtLink',
+			 'manage_options', 'dh_nf_option_page', 'dh_nf_option_page_fn');
 }
 
 function dh_nf_option_page_fn() {
