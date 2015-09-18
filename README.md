@@ -1,4 +1,4 @@
-# wp-nofollow
+# External links nofollow, favicon, fixer-upper
 Wordpress plugin to filter external links, adding `rel=nofollow` and favicons as configured in admin screen.
 
 It's useful to support
