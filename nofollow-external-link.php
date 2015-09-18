@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.6
+Version: 1.0.7
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -42,6 +42,8 @@ function register_dh_nf_settings() {
 	register_setting( 'dh-nf-settings-group', 'dh_nf_whitelist_domains' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_blacklist_domains' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_target_blank' );
+	register_setting( 'dh-nf-settings-group', 'dh_nf_show_extlink' );
+	register_setting( 'dh-nf-settings-group', 'dh_nf_show_favicon' );
 }
 
 function dh_nf_plugin_menu() {
@@ -53,6 +55,8 @@ function dh_nf_option_page_fn() {
 	$dh_nf_whitelist_domains = get_option('dh_nf_whitelist_domains');
 	$dh_nf_blacklist_domains = get_option('dh_nf_blacklist_domains');
 	$dh_nf_target_blank = get_option('dh_nf_target_blank');
+	$dh_nf_show_extlink = get_option('dh_nf_show_extlink');
+	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
 	?>
 	<div class="wrap">
 	<h2>External links rel=Nofollow, favicon, fixer-upper</h2>
@@ -66,6 +70,26 @@ function dh_nf_option_page_fn() {
 				<td>
 				    <input type="checkbox" name="dh_nf_target_blank" value="_blank" <?php
 				        if (!empty($dh_nf_target_blank) && $dh_nf_target_blank === "_blank") {
+				            ?>checked<?php
+				        }
+				    ?> > 
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Show external link icon?</th>
+				<td>
+				    <input type="checkbox" name="dh_nf_show_extlink" value="show" <?php
+				        if (!empty($dh_nf_show_extlink) && $dh_nf_show_extlink === "show") {
+				            ?>checked<?php
+				        }
+				    ?> > 
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Show external link favicon?</th>
+				<td>
+				    <input type="checkbox" name="dh_nf_show_favicon" value="show" <?php
+				        if (!empty($dh_nf_show_favicon) && $dh_nf_show_favicon === "show") {
 				            ?>checked<?php
 				        }
 				    ?> > 
@@ -115,6 +139,8 @@ function dh_nf_urlparse2($content) {
 	}
 	
 	$dh_nf_target_blank = get_option('dh_nf_target_blank');
+	$dh_nf_show_extlink = get_option('dh_nf_show_extlink');
+	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
 			
     try {
         $html = new DOMDocument(null, 'UTF-8');
@@ -203,11 +229,20 @@ function dh_nf_urlparse2($content) {
 			}
 			
 			// Add the favicon
-			// TBD Control this with an Admin option
-            if (!$hasImages && !$a->attributes->getNamedItem('data-no-favicon')) {
+            if (!$hasImages
+             && !empty($dh_nf_show_favicon)
+             && $dh_nf_show_favicon === "show"
+             && !$a->attributes->getNamedItem('data-no-favicon')) {
+                $img = $html->createElement('img');
+                $img->setAttribute('src', plugins_url( 'wp-nofollow/images/extlink.png' ));
+                $img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
+                $a->insertBefore($img, $a->firstChild);
+            }
+            
+            if (!empty($dh_nf_show_extlink)
+             && $dh_nf_show_extlink === "show") {
                 $img = $html->createElement('img');
                 $img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
-                $img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
                 $a->insertBefore($img, $a->firstChild);
             }
         }
