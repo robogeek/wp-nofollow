@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.2
+Version: 1.0.3
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -83,7 +83,121 @@ function dh_nf_option_page_fn() {
 	<?php 
 }
 
-add_filter( 'the_content', 'dh_nf_url_parse');
+add_filter( 'the_content', 'dh_nf_urlparse2');
+
+function dh_nf_urlparse2($content) {
+    
+	//$ownDomain = get_option('home');
+	$ownDomain = $_SERVER['HTTP_HOST'];
+			
+	// whitelist
+	$white_list_domains_list = array();
+	if(get_option('dh_nf_whitelist_domains')!='') {
+		$white_list_domains_list = explode(",",get_option('dh_nf_whitelist_domains'));
+	}
+	
+	// blacklist
+	$black_list_domains_list = array();
+	if(get_option('dh_nf_blacklist_domains')!='') {
+		$black_list_domains_list = explode(",",get_option('dh_nf_blacklist_domains'));
+	}
+			
+    try {
+        $html = new DOMDocument(null, 'UTF-8');
+        @$html->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content);
+
+        foreach ($html->getElementsByTagName('a') as $a) {
+
+            // Skip if there's no href=
+            $url = $a->attributes->getNamedItem('href');
+            if (!$url) {
+                continue;
+            }
+            
+            // Skip if the link is internal, or if it has "#whatever"
+            $urlParts = parse_url($url->textContent);
+            if (!$urlParts || empty($urlParts['host']) || !empty($urlParts['fragment'])) {
+                continue;
+            }
+            
+            // Skip if the link points to our own domain (hence, is local)
+            if (dh_nf_domainEndsWith($urlParts['host'], $ownDomain)) {
+                continue;
+            }
+            
+            $hasImages = false;            
+            $imgs = $a->getElementsByTagName('img');
+            if ($imgs->length > 0) {
+                $hasImages = true;
+            }
+
+			// true means add nofollow, false means not (is in whitelist)
+			$domainNoFollow = true;
+			
+			if (count($white_list_domains_list) > 0) {
+				$white_list_domains_list = array_filter($white_list_domains_list);
+				foreach ($white_list_domains_list as $domain) {
+					$domain = trim($domain);
+					if ($domain != '') {
+						$domainCheck = dh_nf_domainEndsWith($urlParts['host'], $domain);
+						if ($domainCheck === false) {
+							continue;
+						} else {
+							$domainNoFollow = false;
+							break;
+						}
+					}
+				}	
+			}
+			
+			// false means not in BlackList, true means in BlackList & add nofollow
+			$domainInBlackList = false;
+			$noBlackList = false;
+			if (count($black_list_domains_list) > 0) {
+				$black_list_domains_list = array_filter($black_list_domains_list);
+				foreach ($black_list_domains_list as $domain) {
+					$domain = trim($domain);
+					if ($domain != '') {
+						$domainCheck = dh_nf_domainEndsWith($url,$domain);
+						if($domainCheck === false) {
+							continue;
+						} else {
+							$domainInBlackList = true;
+							$domainNoFollow = true;
+							break;
+						}
+					}
+				}
+				if (!$domainInBlackList) $domainNoFollow = false;
+			} else {
+				$noBlackList = true;
+			}
+			
+			// Add rel=nofollow
+			if ($domainNoFollow || $domainInBlackList) {
+			    $a->setAttribute('rel', 'nofollow');
+			}
+			
+			// Add target=_blank if there's no target=
+			// TBD Control this with an Admin option
+			if (empty($a->getAttribute('target'))) {
+			    $a->setAttribute('target', '_blank');
+			}
+			
+			// Add the favicon
+			// TBD Control this with an Admin option
+            if (!$hasImages && !$a->attributes->getNamedItem('data-no-favicon')) {
+                $img = $html->createElement('img');
+                $img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
+                $img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
+                $a->insertBefore($img, $a->firstChild);
+            }
+        }
+        return $html->saveHTML();
+    } catch (Exception $e) {
+        return $content;
+    }
+}
 
 function dh_nf_url_parse( $content ) {
 
@@ -191,4 +305,10 @@ function dh_nf_url_parse( $content ) {
 	
 	$content = str_replace(']]>', ']]&gt;', $content);
 	return $content;
+}
+
+
+function dh_nf_domainEndsWith($haystack, $needle) {
+    // search forward starting from end minus needle length characters
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && stripos($haystack, $needle, $temp) !== FALSE);
 }
