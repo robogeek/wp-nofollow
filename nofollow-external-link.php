@@ -44,7 +44,7 @@ function register_dh_nf_settings() {
 }
 
 function dh_nf_plugin_menu() {
-	add_options_page('Nofollow for external link', 'NoFollow ExtLink',
+	add_options_page('External links rel=Nofollow, favicon, fixer-upper', 'External Links fixer',
 			 'manage_options', 'dh_nf_option_page', 'dh_nf_option_page_fn');
 }
 
@@ -53,7 +53,7 @@ function dh_nf_option_page_fn() {
 	$dh_nf_blacklist_domains = get_option('dh_nf_blacklist_domains');
 	?>
 	<div class="wrap">
-	<h2>Nofollow for external link Options</h2>
+	<h2>External links rel=Nofollow, favicon, fixer-upper</h2>
 	<div class="content_wrapper">
 	<div class="left">
 	<form method="post" action="options.php" enctype="multipart/form-data">
