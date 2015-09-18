@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.5
+Version: 1.0.6
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -41,6 +41,7 @@ add_action( 'admin_init', 'register_dh_nf_settings' );
 function register_dh_nf_settings() {
 	register_setting( 'dh-nf-settings-group', 'dh_nf_whitelist_domains' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_blacklist_domains' );
+	register_setting( 'dh-nf-settings-group', 'dh_nf_target_blank' );
 }
 
 function dh_nf_plugin_menu() {
@@ -51,6 +52,7 @@ function dh_nf_plugin_menu() {
 function dh_nf_option_page_fn() {
 	$dh_nf_whitelist_domains = get_option('dh_nf_whitelist_domains');
 	$dh_nf_blacklist_domains = get_option('dh_nf_blacklist_domains');
+	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 	?>
 	<div class="wrap">
 	<h2>External links rel=Nofollow, favicon, fixer-upper</h2>
@@ -59,6 +61,16 @@ function dh_nf_option_page_fn() {
 	<form method="post" action="options.php" enctype="multipart/form-data">
 		<?php settings_fields( 'dh-nf-settings-group' ); ?>
 		<table class="form-table">
+			<tr valign="top">
+				<th scope="row">Set target=_blank on external links?</th>
+				<td>
+				    <input type="checkbox" name="dh_nf_target_blank" value="_blank" <?php
+				        if (!empty($dh_nf_target_blank) && $dh_nf_target_blank === "_blank") {
+				            ?>checked<?php
+				        }
+				    ?> > 
+				</td>
+			</tr>
 			<tr valign="top">
 			<th scope="row">White List Domains</th>
 			<td><textarea name="dh_nf_whitelist_domains" id="dh_nf_whitelist_domains" class="large-text" placeholder="mydomain.com, my-domain.org, another-domain.net"><?php echo $dh_nf_whitelist_domains?></textarea>
@@ -101,6 +113,8 @@ function dh_nf_urlparse2($content) {
 	if(get_option('dh_nf_blacklist_domains')!='') {
 		$black_list_domains_list = explode(",",get_option('dh_nf_blacklist_domains'));
 	}
+	
+	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 			
     try {
         $html = new DOMDocument(null, 'UTF-8');
@@ -183,7 +197,9 @@ function dh_nf_urlparse2($content) {
 			
 			// Add target=_blank if there's no target=
 			// TBD Control this with an Admin option
-			if (empty($a->getAttribute('target'))) {
+			if (!empty($dh_nf_target_blank) 
+			  && $dh_nf_target_blank === "_blank"
+			  && empty($a->getAttribute('target'))) {
 			    $a->setAttribute('target', '_blank');
 			}
 			
