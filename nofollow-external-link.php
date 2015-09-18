@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.7
+Version: 1.0.8
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -228,21 +228,22 @@ function dh_nf_urlparse2($content) {
 			    $a->setAttribute('target', '_blank');
 			}
 			
-			// Add the favicon
+            // Add the favicon
             if (!$hasImages
              && !empty($dh_nf_show_favicon)
              && $dh_nf_show_favicon === "show"
              && !$a->attributes->getNamedItem('data-no-favicon')) {
                 $img = $html->createElement('img');
-                $img->setAttribute('src', plugins_url( 'wp-nofollow/images/extlink.png' ));
+                $img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
                 $img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
                 $a->insertBefore($img, $a->firstChild);
             }
             
+            // Add external link icon
             if (!empty($dh_nf_show_extlink)
              && $dh_nf_show_extlink === "show") {
                 $img = $html->createElement('img');
-                $img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
+                $img->setAttribute('src', plugins_url( 'wp-nofollow/images/extlink.png' ));
                 $a->insertBefore($img, $a->firstChild);
             }
         }
