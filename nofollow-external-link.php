@@ -3,7 +3,7 @@
 Plugin Name: DSHNofollow 
 Plugin URI: http://davidherron.com
 Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.8
+Version: 1.0.9
 Author: David Herron
 Author URI: http://davidherron.com
 License: GPL2
@@ -41,6 +41,7 @@ add_action( 'admin_init', 'register_dh_nf_settings' );
 function register_dh_nf_settings() {
 	register_setting( 'dh-nf-settings-group', 'dh_nf_whitelist_domains' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_blacklist_domains' );
+	register_setting( 'dh-nf-settings-group', 'dh_nf_icons_before_after' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_target_blank' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_show_extlink' );
 	register_setting( 'dh-nf-settings-group', 'dh_nf_show_favicon' );
@@ -54,6 +55,7 @@ function dh_nf_plugin_menu() {
 function dh_nf_option_page_fn() {
 	$dh_nf_whitelist_domains = get_option('dh_nf_whitelist_domains');
 	$dh_nf_blacklist_domains = get_option('dh_nf_blacklist_domains');
+	$dh_nf_icons_before_after = get_option('dh_nf_icons_before_after');
 	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 	$dh_nf_show_extlink = get_option('dh_nf_show_extlink');
 	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
@@ -93,6 +95,21 @@ function dh_nf_option_page_fn() {
 				            ?>checked<?php
 				        }
 				    ?> > 
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Show icons before or after link?</th>
+				<td>
+					<input type="radio" name="dh_nf_icons_before_after" value="before" <?php
+					    if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before") {
+					        ?>checked<?php
+					    }
+					?> >Before
+					<input type="radio" name="dh_nf_icons_before_after" value="after" <?php
+					    if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "after") {
+					        ?>checked<?php
+					    }
+					?> >After
 				</td>
 			</tr>
 			<tr valign="top">
@@ -138,6 +155,7 @@ function dh_nf_urlparse2($content) {
 		$black_list_domains_list = explode(",",get_option('dh_nf_blacklist_domains'));
 	}
 	
+	$dh_nf_icons_before_after = get_option('dh_nf_icons_before_after');
 	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 	$dh_nf_show_extlink = get_option('dh_nf_show_extlink');
 	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
@@ -236,7 +254,12 @@ function dh_nf_urlparse2($content) {
                 $img = $html->createElement('img');
                 $img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
                 $img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
-                $a->insertBefore($img, $a->firstChild);
+                if (empty($dh_nf_icons_before_after)
+                || (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before")) {
+                    $a->insertBefore($img, $a->firstChild);
+                } else {
+                    $a->appendChild($img);
+                }
             }
             
             // Add external link icon
@@ -244,7 +267,12 @@ function dh_nf_urlparse2($content) {
              && $dh_nf_show_extlink === "show") {
                 $img = $html->createElement('img');
                 $img->setAttribute('src', plugins_url( 'wp-nofollow/images/extlink.png' ));
-                $a->insertBefore($img, $a->firstChild);
+                if (empty($dh_nf_icons_before_after)
+                || (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before")) {
+                    $a->insertBefore($img, $a->firstChild);
+                } else {
+                    $a->appendChild($img);
+                }
             }
         }
         return $html->saveHTML();
