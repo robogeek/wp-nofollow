@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: reikiman
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NJUEG56USPC72
-Tags: nofollow, external links, target blank
+Tags: nofollow, rel nofollow, nofollow external link, nofollow external links, nofollow for external link, nofollow links, rel=nofollow, nofollow content links, dofollow, external links, external link, external-links, link, links, meta, target blank, PageRank, seo, search engine optimization
 Requires at least: 4.0.1
 Tested up to: 4.3
 Stable tag: trunk
