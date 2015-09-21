@@ -1,12 +1,13 @@
 <?php
 /*
-Plugin Name: DSHNofollow 
-Plugin URI: http://davidherron.com
-Description: Control which external links have <code>rel=&quot;nofollow&quot;</code> and <code>target=&quot;_blank&quot;</code> aded to them.  It can be configured so all external links get these attributes, and a white-list and black-list give finer grained control.  The <strong>white list domains</strong>, if specified, will not to get the <code>rel=&quot;nofollow&quot;</code> attribute.  The <strong>black list domains</strong>, if specified, is a precise list of the domains which get the <code>rel=&quot;nofollow&quot;</code> attribute.  If no black list is specified, then all external links are nofollow'd (unless the domain is in the white list).
-Version: 1.0.9
+Plugin Name: External links nofollow, open in new tab, favicon 
+Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
+Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
+Version: 1.0.10
 Author: David Herron
-Author URI: http://davidherron.com
-License: GPL2
+Author URI: http://davidherron.com/wordpress
+License:     GPL2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 function dh_nf_admin_sidebar() {
@@ -48,7 +49,7 @@ function register_dh_nf_settings() {
 }
 
 function dh_nf_plugin_menu() {
-	add_options_page('External links rel=Nofollow, favicon, fixer-upper', 'External Links fixer',
+	add_options_page('External links rel=nofollow, open in new window, favicon', 'External Links nofollow, etc',
 			 'manage_options', 'dh_nf_option_page', 'dh_nf_option_page_fn');
 }
 
@@ -61,7 +62,7 @@ function dh_nf_option_page_fn() {
 	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
 	?>
 	<div class="wrap">
-	<h2>External links rel=Nofollow, favicon, fixer-upper</h2>
+	<h2>External links rel=nofollow, open in new window, favicon</h2>
 	<div class="content_wrapper">
 	<div class="left">
 	<form method="post" action="options.php" enctype="multipart/form-data">
@@ -112,6 +113,11 @@ function dh_nf_option_page_fn() {
 					?> >After
 				</td>
 			</tr>
+			<tr valign="top"><td>
+				Control the rel=nofollow attribute.  By default all external (outbound) links will have
+				rel=nofollow added.  Any domains listed in the White list will never have this attribute,
+				while any in the Black list will always have this attribute.
+			</td></tr>
 			<tr valign="top">
 			<th scope="row">White List Domains</th>
 			<td><textarea name="dh_nf_whitelist_domains" id="dh_nf_whitelist_domains" class="large-text" placeholder="mydomain.com, my-domain.org, another-domain.net"><?php echo $dh_nf_whitelist_domains?></textarea>
