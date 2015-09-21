@@ -3,7 +3,7 @@
 Plugin Name: External links nofollow, open in new tab, favicon 
 Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
 Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
-Version: 1.0.13
+Version: 1.0.15
 Author: David Herron
 Author URI: http://davidherron.com/wordpress
 License:     GPL2
@@ -28,9 +28,18 @@ function dh_nf_admin_sidebar() {
 
 	?>
 	<div class="dh_nf_admin_banner">
-	I am very glad that you like this plugin.
+
+    <p>To find out more about this plugin and other Wordpress-related work by David Herron,
+    visit <a href="http://davidherron.com/wordpress">his home page</a>.</p>
+    
+    <p>David has also written extensively about 
+    <a href="http://davidherron.com/node-web-development">Node.js programming</a>, including the book 
+    <a href="http://www.amazon.com/gp/product/B00E37TNBI/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00E37TNBI&linkCode=as2&tag=thereikipage&linkId=LOREWD4W32PWOKQG">Node Web Development, Second Edition</a>
+    </p>
+		
+	<p>I am very glad that you like this plugin.
 	Your support is greatly appreciated.
-	Please make a donation using the button below:
+	Please make a donation using the button below:</p>
 	
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 	<input type="hidden" name="cmd" value="_s-xclick">
