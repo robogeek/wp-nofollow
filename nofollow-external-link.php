@@ -3,7 +3,7 @@
 Plugin Name: External links nofollow, open in new tab, favicon 
 Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
 Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
-Version: 1.0.12
+Version: 1.0.13
 Author: David Herron
 Author URI: http://davidherron.com/wordpress
 License:     GPL2
@@ -48,6 +48,7 @@ add_filter( 'plugin_row_meta', 'dh_nf_row_meta', 10, 2 );
 function dh_nf_row_meta( $links, $file ) {
 	if ( strpos( $file, 'nofollow-external-link.php' ) !== false ) {
 	    $links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NJUEG56USPC72">Donate</a>';
+	    $links[] = '<a href="https://github.com/robogeek/wp-nofollow">Contribute</a>';
 	}
 	return $links;
 }
