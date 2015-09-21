@@ -3,7 +3,7 @@
 Plugin Name: External links nofollow, open in new tab, favicon 
 Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
 Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
-Version: 1.0.11
+Version: 1.0.12
 Author: David Herron
 Author URI: http://davidherron.com/wordpress
 License:     GPL2
@@ -136,7 +136,7 @@ function dh_nf_option_page_fn() {
 					?> >After
 				</td>
 			</tr>
-			<tr valign="top"><td>
+			<tr valign="top"><td colspan="2">
 				Control the rel=nofollow attribute.  By default all external (outbound) links will have
 				rel=nofollow added.  Any domains listed in the White list will never have this attribute,
 				while any in the Black list will always have this attribute.
