@@ -1,6 +1,6 @@
 === Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: http://example.com/
+Contributors: reikiman
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NJUEG56USPC72
 Tags: nofollow, external links, target blank
 Requires at least: 4.0.1
 Tested up to: 4.3
