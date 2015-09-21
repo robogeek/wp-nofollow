@@ -3,7 +3,7 @@
 Plugin Name: External links nofollow, open in new tab, favicon 
 Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
 Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
-Version: 1.0.10
+Version: 1.0.11
 Author: David Herron
 Author URI: http://davidherron.com/wordpress
 License:     GPL2
@@ -26,21 +26,30 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 function dh_nf_admin_sidebar() {
 
-	$banners = array(
-		
-	);
-	//shuffle( $banners );
 	?>
-	<div class="dh_admin_banner">
-	<?php
-	$i = 0;
-	foreach ( $banners as $banner ) {
-		echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $banner['img'], __FILE__ ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
-		$i ++;
-	}
-	?>
+	<div class="dh_nf_admin_banner">
+	I am very glad that you like this plugin.
+	Your support is greatly appreciated.
+	Please make a donation using the button below:
+	
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="NJUEG56USPC72">
+	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	</form>
+
 	</div>
 <?php
+}
+
+add_filter( 'plugin_row_meta', 'dh_nf_row_meta', 10, 2 );
+
+function dh_nf_row_meta( $links, $file ) {
+	if ( strpos( $file, 'nofollow-external-link.php' ) !== false ) {
+	    $links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NJUEG56USPC72">Donate</a>';
+	}
+	return $links;
 }
 
 function dh_nf_admin_style() {
