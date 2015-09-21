@@ -280,9 +280,11 @@ function dh_nf_urlparse2($content) {
 			// $a->setAttribute('data-domain-in-black-list', $domainInBlackList ? "true" : "false");
 			
 			// Add target=_blank if there's no target=
+			$curtarget = $a->getAttribute('target');
 			if (!empty($dh_nf_target_blank) 
 			  && $dh_nf_target_blank === "_blank"
-			  && empty($a->getAttribute('target'))) {
+			  && (!isset($curtarget) || $curtarget == '')
+			  ) {
 			    $a->setAttribute('target', '_blank');
 			}
 			
