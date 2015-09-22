@@ -3,7 +3,7 @@
 Plugin Name: External links nofollow, open in new tab, favicon 
 Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
 Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
-Version: 1.2.1
+Version: 1.2.2
 Author: David Herron
 Author URI: http://davidherron.com/wordpress
 slug: external-links-nofollow
@@ -65,7 +65,7 @@ function dh_nf_row_meta( $links, $file ) {
 
 function dh_nf_admin_style() {
 	global $pluginsURI;
-	wp_register_style( 'dh_nf_admin_css', plugins_url( 'wp-nofollow/css/admin-style.css' ) , false, '1.0' );
+	wp_register_style( 'dh_nf_admin_css', esc_url(plugins_url( 'css/admin-style.css', __FILE__ )) , false, '1.0' );
 	wp_enqueue_style( 'dh_nf_admin_css' );
 }
 add_action( 'admin_enqueue_scripts', 'dh_nf_admin_style' );
@@ -308,7 +308,7 @@ function dh_nf_urlparse2($content) {
             if (!empty($dh_nf_show_extlink)
              && $dh_nf_show_extlink === "show") {
                 $img = $html->createElement('img');
-                $img->setAttribute('src', plugins_url( 'wp-nofollow/images/extlink.png' ));
+                $img->setAttribute('src', esc_url(plugins_url( 'images/extlink.png', __FILE__ )));
                 if (empty($dh_nf_icons_before_after)
                 || (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before")) {
                     $a->insertBefore($img, $a->firstChild);

@@ -30,6 +30,9 @@ A manual installation can be done by downloading the plugin from its [github rep
 
 == Changelog ==
 
+= 1.2.2 =
+* Fix the URL to reference plugin files
+
 = 1.2.1 =
 * Cleanup minor problems after deployment to wordpress.org
 
