@@ -1,9 +1,9 @@
 <?php
 /*
- *Plugin Name: External links nofollow, open in new tab, favicon
+ *Plugin Name: External links manipulator - nofollow, open in new tab, favicon
  Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
  Description: Process outbound (external) links in content, optionally adding rel=nofollow or target=_blank attributes, and optionally adding icons.
- Version: 1.2.3
+ Version: 1.3.0
  Author: David Herron
  Author URI: http://davidherron.com/wordpress
  slug: external-links-nofollow
@@ -27,7 +27,7 @@
 
 
 define("DHNFDIR",plugin_dir_path( __FILE__ ));
-// define("DHNFURL",plugin_dir_url( __FILE__ ));
+define("DHNFURL",plugin_dir_url( __FILE__ ));
 // define("DHNFSLUG",dirname(plugin_basename(__FILE__)));
 
 if (is_admin()) {

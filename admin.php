@@ -17,7 +17,7 @@
 
 function dh_nf_admin_enqueue_scripts($hook) {
     global $wp_scripts;
-    wp_enqueue_script('wpemfb-admin', DHNFDIR . 'js/admin.js', array('jquery-ui-accordion'));
+    wp_enqueue_script('dhnf-admin', DHNFURL . 'js/admin.js', array('jquery-ui-accordion'));
     $queryui = $wp_scripts->query('jquery-ui-core');
     $url = "https://ajax.googleapis.com/ajax/libs/jqueryui/" . $queryui->ver . "/themes/smoothness/jquery-ui.css";
     wp_enqueue_style('jquery-ui-start', $url, false, null);
@@ -25,7 +25,7 @@ function dh_nf_admin_enqueue_scripts($hook) {
 add_action( 'admin_enqueue_scripts', 'dh_nf_admin_enqueue_scripts');
 
 function dh_nf_admin_init() {
-    add_editor_style(DHNFDIR . 'css/admin-style.css');
+    add_editor_style(DHNFURL . 'css/admin-style.css');
 }
 add_action( 'admin_init', 'dh_nf_admin_init');
 
@@ -104,52 +104,10 @@ function dh_nf_option_page_fn() {
                     
                     <div id="accordion">
                         
-                    <h3>Set target=_blank on external links?</h3>
-                    <div>
-                        <input type="checkbox" name="dh_nf_target_blank" value="_blank" <?php
-                        if (!empty($dh_nf_target_blank) && $dh_nf_target_blank === "_blank") {
-                            ?>checked<?php
-                        }
-                        ?> >
-                    </div>
-                    
-                    <h3>Show external link icon?</h3>
-                    <div>
-                        <input type="checkbox" name="dh_nf_show_extlink" value="show" <?php
-                        if (!empty($dh_nf_show_extlink) && $dh_nf_show_extlink === "show") {
-                            ?>checked<?php
-                        }
-                        ?> >
-                    </div>
-                    
-                    <h3>Show external link favicon?</h3>
-                    <div>
-                        <input type="checkbox" name="dh_nf_show_favicon" value="show" <?php
-                        if (!empty($dh_nf_show_favicon) && $dh_nf_show_favicon === "show") {
-                            ?>checked<?php
-                        }
-                        ?> >
-                    </div>
-                    
-                    <h3>Show icons before or after link?</h3>
-                    <div>
-                        <input type="radio" name="dh_nf_icons_before_after" value="before" <?php
-                        if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before") {
-                            ?>checked<?php
-                        }
-                        ?> >Before
-                        <input type="radio" name="dh_nf_icons_before_after" value="after" <?php
-                        if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "after") {
-                            ?>checked<?php
-                        }
-                        ?> >After
-                    </div>
-                    
-                    <h3>White List, Black List</h3>
+                    <h3>Control rel=nofollow</h3>
                     <div>
                 
-                        <p>Control the rel=nofollow attribute.
-                        By default all external (outbound) links will have rel=nofollow added.</p>
+                        <p>By default all external (outbound) links will have rel=nofollow added.</p>
                         
                         <div>
                             <strong>White list</strong>: Domains which will never have rel=nofollow
@@ -162,6 +120,45 @@ function dh_nf_option_page_fn() {
                             <textarea name="dh_nf_blacklist_domains" id="dh_nf_blacklist_domains" class="large-text" placeholder="mydomain.com, my-domain.org, another-domain.net"><?php echo $dh_nf_blacklist_domains?></textarea>
                             <br /><em>Domain name <code>MUST BE</code> comma(,) separated. <!--<br />Example: facebook.com, google.com, youtube.com-->Don't need to add <code>http://</code> or <code>https://</code><br /><code>rel="nofollow"</code> will be added to "Black List Domains"</em>
                         </div>
+                    </div>
+					
+                    <h3>Open links in new window/tab?</h3>
+                    <div>
+                        <input type="checkbox" name="dh_nf_target_blank" value="_blank" <?php
+                        if (!empty($dh_nf_target_blank) && $dh_nf_target_blank === "_blank") {
+                            ?>checked<?php
+                        }
+                        ?> > Set target=_blank on external links?
+                    </div>
+                    
+                    <h3>Show icon on external links?</h3>
+                    <div>
+                        <input type="checkbox" name="dh_nf_show_extlink" value="show" <?php
+                        if (!empty($dh_nf_show_extlink) && $dh_nf_show_extlink === "show") {
+                            ?>checked<?php
+                        }
+                        ?> > Show external link icon?
+						
+						<br/>
+                        <input type="checkbox" name="dh_nf_show_favicon" value="show" <?php
+                        if (!empty($dh_nf_show_favicon) && $dh_nf_show_favicon === "show") {
+                            ?>checked<?php
+                        }
+                        ?> > Show favicon for destination site?
+						
+						<br/>
+                    
+						<p>Show icons before or after link?</p>
+                        <input type="radio" name="dh_nf_icons_before_after" value="before" <?php
+                        if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before") {
+                            ?>checked<?php
+                        }
+                        ?> >Before
+                        <input type="radio" name="dh_nf_icons_before_after" value="after" <?php
+                        if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "after") {
+                            ?>checked<?php
+                        }
+                        ?> >After
                     </div>
                     
                     </div><!-- accordion -->
