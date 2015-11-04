@@ -80,6 +80,7 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_extlink');
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_favicon');
 	
+	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_ca');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_cn');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_com');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_co_jp');
@@ -114,6 +115,7 @@ function dh_nf_option_page_fn() {
 	
 	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
 	$dh_nf_affproduct_amazon_br     = get_option('dh_nf_affproduct_amazon_br');
+	$dh_nf_affproduct_amazon_ca     = get_option('dh_nf_affproduct_amazon_ca');
 	$dh_nf_affproduct_amazon_cn     = get_option('dh_nf_affproduct_amazon_cn');
 	$dh_nf_affproduct_amazon_com    = get_option('dh_nf_affproduct_amazon_com');
 	$dh_nf_affproduct_amazon_co_jp  = get_option('dh_nf_affproduct_amazon_co_jp');
@@ -247,6 +249,15 @@ function dh_nf_option_page_fn() {
 							   name="dh_nf_affproduct_amazon_br"
 							   type="text"
 							   value="<?php echo esc_attr($dh_nf_affproduct_amazon_br); ?>">
+						</div>
+						<div>
+						<label for="dh_nf_affproduct_amazon_ca">
+							<strong><?php _e('Amazon.CA (Canada) Affiliate Code:'); ?></strong>
+						</label> 
+						<input id="dh_nf_affproduct_amazon_ca"
+							   name="dh_nf_affproduct_amazon_ca"
+							   type="text"
+							   value="<?php echo esc_attr($dh_nf_affproduct_amazon_ca); ?>">
 						</div>
 						<div>
 						<label for="dh_nf_affproduct_amazon_cn">

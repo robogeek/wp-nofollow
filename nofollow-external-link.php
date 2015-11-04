@@ -4,7 +4,7 @@
  Plugin Name: External & Affiliate Links Processor - affiliate links, nofollow, open in new tab, favicon
  Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
  Description: Process outbound (external) links in content, optionally adding affiliate link attributes, rel=nofollow or target=_blank attributes, and optionally adding icons.
- Version: 1.4.1
+ Version: 1.4.2
  Author: David Herron
  Author URI: http://davidherron.com/wordpress
  slug: external-links-nofollow
@@ -207,6 +207,7 @@ function dh_nf_init_affprocessor() {
 	
 	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
 	$dh_nf_affproduct_amazon_br     = get_option('dh_nf_affproduct_amazon_br');
+	$dh_nf_affproduct_amazon_ca     = get_option('dh_nf_affproduct_amazon_ca');
 	$dh_nf_affproduct_amazon_cn     = get_option('dh_nf_affproduct_amazon_cn');
 	$dh_nf_affproduct_amazon_com    = get_option('dh_nf_affproduct_amazon_com');
 	$dh_nf_affproduct_amazon_co_jp  = get_option('dh_nf_affproduct_amazon_co_jp');
@@ -232,6 +233,8 @@ function dh_nf_init_affprocessor() {
 		$affConfig['AMAZON']['amazon.com.au']['tracking-code'] = $dh_nf_affproduct_amazon_com_au;
 	if (!empty($dh_nf_affproduct_amazon_br))
 		$affConfig['AMAZON']['amazon.br']['tracking-code'] = $dh_nf_affproduct_amazon_br;
+	if (!empty($dh_nf_affproduct_amazon_ca))
+		$affConfig['AMAZON']['amazon.ca']['tracking-code'] = $dh_nf_affproduct_amazon_ca;
 	if (!empty($dh_nf_affproduct_amazon_cn))
 		$affConfig['AMAZON']['amazon.cn']['tracking-code'] = $dh_nf_affproduct_amazon_cn;
 	if (!empty($dh_nf_affproduct_amazon_com))
