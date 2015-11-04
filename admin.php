@@ -83,6 +83,7 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_ca');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_cn');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_com');
+	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_com_au');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_co_jp');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_co_uk');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_de');
