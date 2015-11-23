@@ -3,8 +3,8 @@ Contributors: reikiman
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NJUEG56USPC72
 Tags: nofollow, rel nofollow, nofollow external link, nofollow external links, nofollow links, rel=nofollow, nofollow content links, dofollow, external links, external link, external-links, link, links, target blank, affiliate links
 Requires at least: 4.0.1
-Tested up to: 4.3.1
-Stable tag: 1.4.2
+Tested up to: 4.4
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,11 @@ Simply search for this plugin from the plugins section of your blog admin, use a
 A manual installation can be done by downloading the plugin from its [github repository](https://github.com/robogeek/wp-nofollow).
 
 == Changelog ==
+
+= 1.4.3 =
+* Tested to work on Wordpress 4.4
+* Improving documentation on admin page
+* No code changes
 
 = 1.4.2 =
 * With apologies to Canada, belatedly added support for amazon.ca

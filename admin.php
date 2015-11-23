@@ -376,7 +376,21 @@ function dh_nf_option_page_fn() {
 						
 						<p>Enter Merchant ID's for the Rakuten programs you've joined.  For each program
 						add a line of text in the format "domain merchantID".
-						You find the Merchant ID in the program information page for each program.</p>
+						The simplest way to get the Merchant ID is that while viewing your
+						list of merchants, simply hovering over the merchant name shows the Merchant ID.
+						The Merchant ID number is also shown on the program information page for each program.</p>
+
+<p>This ends up looking somewhat like this:</p>
+
+<pre>
+refurb.io 40098
+dreamstime.com 39291
+marketing.rakuten.com 560
+rakuten.com 36342
+buy.com 36342
+shambhala.com 35631
+</pre>
+
 				
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
