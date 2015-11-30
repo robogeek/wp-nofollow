@@ -4,7 +4,7 @@
  Plugin Name: External & Affiliate Links Processor - affiliate links, nofollow, open in new tab, favicon
  Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
  Description: Process outbound (external) links in content, optionally adding affiliate link attributes, rel=nofollow or target=_blank attributes, and optionally adding icons.
- Version: 1.4.2
+ Version: 1.4.4
  Author: David Herron
  Author URI: http://davidherron.com/wordpress
  slug: external-links-nofollow
@@ -205,6 +205,7 @@ function dh_nf_urlparse2($content) {
 
 function dh_nf_init_affprocessor() {
 	
+	// Duplicate changes to the Amazon sites down to dh_nf_amazon_buy
 	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
 	$dh_nf_affproduct_amazon_br     = get_option('dh_nf_affproduct_amazon_br');
 	$dh_nf_affproduct_amazon_ca     = get_option('dh_nf_affproduct_amazon_ca');
@@ -274,6 +275,134 @@ function dh_nf_init_affprocessor() {
 	
 	return new Processor($affConfig);
 }
+
+
+function dh_nf_amazon_buy($atts, $content = "", $tag = 'amazon_com_buy') {
+    
+	// Duplicate changes to the Amazon sites up to dh_nf_init_affprocessor
+	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
+	$dh_nf_affproduct_amazon_br     = get_option('dh_nf_affproduct_amazon_br');
+	$dh_nf_affproduct_amazon_ca     = get_option('dh_nf_affproduct_amazon_ca');
+	$dh_nf_affproduct_amazon_cn     = get_option('dh_nf_affproduct_amazon_cn');
+	$dh_nf_affproduct_amazon_com    = get_option('dh_nf_affproduct_amazon_com');
+	$dh_nf_affproduct_amazon_co_jp  = get_option('dh_nf_affproduct_amazon_co_jp');
+	$dh_nf_affproduct_amazon_co_uk  = get_option('dh_nf_affproduct_amazon_co_uk');
+	$dh_nf_affproduct_amazon_de     = get_option('dh_nf_affproduct_amazon_de');
+	$dh_nf_affproduct_amazon_es     = get_option('dh_nf_affproduct_amazon_es');
+	$dh_nf_affproduct_amazon_fr     = get_option('dh_nf_affproduct_amazon_fr');
+	$dh_nf_affproduct_amazon_in     = get_option('dh_nf_affproduct_amazon_in');
+	$dh_nf_affproduct_amazon_it     = get_option('dh_nf_affproduct_amazon_it');
+	$dh_nf_affproduct_amazon_mx     = get_option('dh_nf_affproduct_amazon_mx');
+	
+	if ($tag == 'amazon_com_au_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_com_au;
+	    $affdomain = "www.amazon.com.au";
+	    $affimgdomain = "images.amazon.com.au";
+	}
+	
+	if ($tag == 'amazon_br_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_br;
+	    $affdomain = "www.amazon.br";
+	    $affimgdomain = "images.amazon.br";
+	}
+	
+	if ($tag == 'amazon_ca_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_ca;
+	    $affdomain = "www.amazon.ca";
+	    $affimgdomain = "images.amazon.ca";
+	}
+	
+	if ($tag == 'amazon_cn_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_cn;
+	    $affdomain = "www.amazon.cn";
+	    $affimgdomain = "images.amazon.cn";
+	}
+	
+	if ($tag == 'amazon_com_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_com;
+	    $affdomain = "www.amazon.com";
+	    $affimgdomain = "images.amazon.com";
+	}
+	
+	if ($tag == 'amazon_co_jp_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_co_jp;
+	    $affdomain = "www.amazon.co.jp";
+	    $affimgdomain = "images.amazon.co.jp";
+	}
+	
+	if ($tag == 'amazon_co_uk_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_co_uk;
+	    $affdomain = "www.amazon.co.uk";
+	    $affimgdomain = "images.amazon.co.uk";
+	}
+	
+	if ($tag == 'amazon_de_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_de;
+	    $affdomain = "www.amazon.de";
+	    $affimgdomain = "images.amazon.de";
+	}
+	
+	if ($tag == 'amazon_es_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_es;
+	    $affdomain = "www.amazon.es";
+	    $affimgdomain = "images.amazon.es";
+	}
+	
+	if ($tag == 'amazon_fr_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_fr;
+	    $affdomain = "www.amazon.fr";
+	    $affimgdomain = "images.amazon.fr";
+	}
+	
+	if ($tag == 'amazon_in_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_in;
+	    $affdomain = "www.amazon.in";
+	    $affimgdomain = "images.amazon.in";
+	}
+	
+	if ($tag == 'amazon_it_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_it;
+	    $affdomain = "www.amazon.it";
+	    $affimgdomain = "images.amazon.it";
+	}
+	
+	if ($tag == 'amazon_mx_buy') {
+	    $affcode = $dh_nf_affproduct_amazon_mx;
+	    $affdomain = "www.amazon.mx";
+	    $affimgdomain = "images.amazon.mx";
+	}
+	
+	$ASIN = '';
+    foreach ($atts as $key => $value) {
+        if ($key === 'asin') {
+            $ASIN = $value;
+            continue;
+        }
+    }
+    
+    if (empty($ASIN) || empty($affcode)) {
+        return "<!-- no ASIN provided -->"; // eliminate this shortcode - no ASIN provided
+    } else {
+        $ret = <<<END
+<form method="GET" action="http://${$affdomain}/gp/aws/cart/add.html"> <input type="hidden" name="AssociateTag" value="${$affcode}"/> <!-- input type="hidden" name="SubscriptionId" value="AWSAccessKeyId"/ --> <input type="hidden" name="ASIN.1" value="${ASIN}"/><br/> <input type="hidden" name="Quantity.1" value="1"/><br/> <input type="image" name="add" value="Buy from ${$affdomain}" border="0" alt="Buy from ${$affdomain}" src="http://${$affimgdomain}/images/G/01/associates/add-to-cart.gif"> </form>
+END;
+        return $ret;
+    }
+    
+}
+add_shortcode('amazon_com_au_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_br_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_ca_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_cn_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_com_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_co_jp_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_co_uk_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_de_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_es_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_fr_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_in_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_it_buy', 'dh_nf_amazon_buy');
+add_shortcode('amazon_mx_buy', 'dh_nf_amazon_buy');
 
 function dh_nf_domainEndsWith($haystack, $needle) {
 	// search forward starting from end minus needle length characters

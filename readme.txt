@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: nofollow, rel nofollow, nofollow external link, nofollow external links, nofollow links, rel=nofollow, nofollow content links, dofollow, external links, external link, external-links, link, links, target blank, affiliate links
 Requires at least: 4.0.1
 Tested up to: 4.4
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,10 +12,10 @@ Process outbound (external) links to make useful changes, including adding affil
 
 == Description ==
 
-This plugin controls several useful attributes of external links.  
+This plugin controls several useful attributes of external links.
 
 * Add affiliate ID tags to links to sites where this makes sense
-* Control, based on the domain of the outbound link, whether or not to add `rel=nofollow`.  
+* Control, based on the domain of the outbound link, whether or not to add `rel=nofollow`.
 * Control whether to open outbound links in new windows (`target=_blank`)
 * Control whether to add visual cues for outbound links, including the favicon for the target site, and/or a generic external link icon
 
@@ -39,6 +39,9 @@ Simply search for this plugin from the plugins section of your blog admin, use a
 A manual installation can be done by downloading the plugin from its [github repository](https://github.com/robogeek/wp-nofollow).
 
 == Changelog ==
+
+= 1.4.4 =
+* Add shortcodes for Amazon direct-to-shopping-cart buttons
 
 = 1.4.3 =
 * Tested to work on Wordpress 4.4
@@ -67,5 +70,5 @@ A manual installation can be done by downloading the plugin from its [github rep
 = 1.2.1 =
 * Cleanup minor problems after deployment to wordpress.org
 
-= 1.2 = 
+= 1.2 =
 * Initial revision for wordpress.org
