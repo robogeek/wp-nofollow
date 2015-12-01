@@ -15,6 +15,7 @@ Process outbound (external) links to make useful changes, including adding affil
 This plugin controls several useful attributes of external links.
 
 * Add affiliate ID tags to links to sites where this makes sense
+* Create buttons to add products directly to Amazon's shopping cart
 * Control, based on the domain of the outbound link, whether or not to add `rel=nofollow`.
 * Control whether to open outbound links in new windows (`target=_blank`)
 * Control whether to add visual cues for outbound links, including the favicon for the target site, and/or a generic external link icon
@@ -31,6 +32,7 @@ This plugin lets you make a simple natural link to the destination, and the plug
 * Sites on the Linkshare/Rakuten network
 * Zazzle.com
 
+In addition to rewriting links to Amazon websites, a shortcode is provided which generates a button which adds a given product directly to an Amazon shopping cart.  Many claim doing so has a beneficial effect on the cookie Amazon places into the browser.
 
 == Installation ==
 
@@ -42,6 +44,7 @@ A manual installation can be done by downloading the plugin from its [github rep
 
 = 1.4.4 =
 * Add shortcodes for Amazon direct-to-shopping-cart buttons
+* Add support for amazon.br and amazon.mx affiliate codes
 
 = 1.4.3 =
 * Tested to work on Wordpress 4.4

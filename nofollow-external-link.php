@@ -277,7 +277,7 @@ function dh_nf_init_affprocessor() {
 }
 
 
-function dh_nf_amazon_buy($atts, $content = "", $tag = 'amazon_com_buy') {
+function dh_nf_amazon_buy($atts, $content = "", $tag = 'extlink_amazon_com_buy') {
     
 	// Duplicate changes to the Amazon sites up to dh_nf_init_affprocessor
 	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
@@ -294,83 +294,7 @@ function dh_nf_amazon_buy($atts, $content = "", $tag = 'amazon_com_buy') {
 	$dh_nf_affproduct_amazon_it     = get_option('dh_nf_affproduct_amazon_it');
 	$dh_nf_affproduct_amazon_mx     = get_option('dh_nf_affproduct_amazon_mx');
 	
-	if ($tag == 'amazon_com_au_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_com_au;
-	    $affdomain = "www.amazon.com.au";
-	    $affimgdomain = "images.amazon.com.au";
-	}
-	
-	if ($tag == 'amazon_br_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_br;
-	    $affdomain = "www.amazon.br";
-	    $affimgdomain = "images.amazon.br";
-	}
-	
-	if ($tag == 'amazon_ca_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_ca;
-	    $affdomain = "www.amazon.ca";
-	    $affimgdomain = "images.amazon.ca";
-	}
-	
-	if ($tag == 'amazon_cn_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_cn;
-	    $affdomain = "www.amazon.cn";
-	    $affimgdomain = "images.amazon.cn";
-	}
-	
-	if ($tag == 'amazon_com_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_com;
-	    $affdomain = "www.amazon.com";
-	    $affimgdomain = "images.amazon.com";
-	}
-	
-	if ($tag == 'amazon_co_jp_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_co_jp;
-	    $affdomain = "www.amazon.co.jp";
-	    $affimgdomain = "images.amazon.co.jp";
-	}
-	
-	if ($tag == 'amazon_co_uk_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_co_uk;
-	    $affdomain = "www.amazon.co.uk";
-	    $affimgdomain = "images.amazon.co.uk";
-	}
-	
-	if ($tag == 'amazon_de_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_de;
-	    $affdomain = "www.amazon.de";
-	    $affimgdomain = "images.amazon.de";
-	}
-	
-	if ($tag == 'amazon_es_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_es;
-	    $affdomain = "www.amazon.es";
-	    $affimgdomain = "images.amazon.es";
-	}
-	
-	if ($tag == 'amazon_fr_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_fr;
-	    $affdomain = "www.amazon.fr";
-	    $affimgdomain = "images.amazon.fr";
-	}
-	
-	if ($tag == 'amazon_in_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_in;
-	    $affdomain = "www.amazon.in";
-	    $affimgdomain = "images.amazon.in";
-	}
-	
-	if ($tag == 'amazon_it_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_it;
-	    $affdomain = "www.amazon.it";
-	    $affimgdomain = "images.amazon.it";
-	}
-	
-	if ($tag == 'amazon_mx_buy') {
-	    $affcode = $dh_nf_affproduct_amazon_mx;
-	    $affdomain = "www.amazon.mx";
-	    $affimgdomain = "images.amazon.mx";
-	}
+	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 	
 	$ASIN = '';
     foreach ($atts as $key => $value) {
@@ -380,29 +304,131 @@ function dh_nf_amazon_buy($atts, $content = "", $tag = 'amazon_com_buy') {
         }
     }
     
-    if (empty($ASIN) || empty($affcode)) {
-        return "<!-- no ASIN provided -->"; // eliminate this shortcode - no ASIN provided
+    $targetBlank = '';
+	if (!empty($dh_nf_target_blank)
+	 && $dh_nf_target_blank === "_blank") {
+		$targetBlank = ' target="_blank"';
+	}
+	
+    
+	$affbuyform = '';
+	
+	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_com_au) && $tag == 'extlink_amazon_com_au_buy') {
+	    // not supported
+	    $affbuyform = '';
+	} */
+	
+	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_br) && $tag == 'extlink_amazon_br_buy') {
+	    // not supported
+	    $affbuyform = '';
+	} */
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_ca) && $tag == 'extlink_amazon_ca_buy') {
+	    $affbuyform = <<<EOD
+<form method="GET" action="http://www.amazon.ca/gp/aws/cart/add.html"${targetBlank}>
+<input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_ca}"/>
+<input type="hidden" name="ASIN.1" value="${ASIN}/"/>
+<input type="hidden" name="Quantity.1" value="1"/>
+<input type="image" name="add" value="Buy from Amazon.ca" border="0" alt="Buy from Amazon.ca" src="http://images.amazon.com/images/G/15/associates/network/build-links/buy-from-ca-tan.gif">
+</form>
+EOD;
+
+	}
+	
+	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_cn) && $tag == 'extlink_amazon_cn_buy') {
+	    // not supported
+	    $affbuyform = '';
+	} */
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_com) && $tag == 'extlink_amazon_com_buy') {
+	    $affbuyform = <<<EOD
+<form method="GET" action="http://www.amazon.com/gp/aws/cart/add.html"${targetBlank}> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_com}"/> <!-- input type="hidden" name="SubscriptionId" value="AWSAccessKeyId"/ --> <input type="hidden" name="ASIN.1" value="${ASIN}"/> <input type="hidden" name="Quantity.1" value="1"/> <input type="image" name="add" value="Buy from Amazon.com" border="0" alt="Buy from Amazon.com" src="http://images.amazon.com/images/G/01/associates/add-to-cart.gif"> </form>
+EOD;
+	}
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_co_jp) && $tag == 'extlink_amazon_co_jp_buy') {
+	    $affbuyform = <<<EOD
+<form method="post" action="http://www.amazon.co.jp/gp/aws/cart/add.html"${targetBlank}> <input type="hidden" name="ASIN.1" value="${ASIN}"> <input type="hidden" name="Quantity.1" value="1"> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_co_jp}"> <input type="image" name="submit.add-to-cart" src= "http://rcm-images.amazon.com/images/G/09/extranet/associates/buttons/remote-buy-jp1.gif" alt="buy in amazon.co.jp"> </form>
+EOD;
+	}
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_co_uk) && $tag == 'extlink_amazon_co_uk_buy') {
+	    $affbuyform = <<<EOD
+<form method="POST" action="http://www.amazon.co.uk/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<input type="hidden" name="asin.${ASIN}" value="1">
+<input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_co_uk}">
+<input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_co_uk}">
+<input type="image" name="submit.add-to-cart" value="Buy from Amazon.co.uk" border="0" alt="Buy from Amazon.co.uk" src="http://images.amazon.com/images/G/02/associates/buttons/buy5.gif">
+</form>
+EOD;
+
+	}
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_de) && $tag == 'extlink_amazon_de_buy') {
+	    $affbuyform = <<<EOD
+<form method="POST" action="http://www.amazon.de/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_de}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_de}"> <input type="submit" name="submit.add-to-cart" value="bei Amazon.de kaufen"> </form>
+EOD;
+	}
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_es) && $tag == 'extlink_amazon_es_buy') {
+	    $affbuyform = <<<EOD
+<form method="POST" action="http://www.amazon.es/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<input type="hidden" name="${ASIN}" value="1">
+<input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_es}">
+<input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_es}">
+<input type="image" name="submit.add-to-cart" value="Comprar en Amazon.es" border="0" alt="Comprar en Amazon.es" src="http://images.amazon.com/images/G/30/associates/buttons/buy_4">
+</form>
+EOD;
+	}
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_fr) && $tag == 'extlink_amazon_fr_buy') {
+	    $affbuyform = <<<EOD
+<form method="POST" action="http://www.amazon.fr/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_fr}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_fr}">  <input type="submit" name="submit.add-to-cart" value="Achetez chez Amazon.fr"> </form>
+EOD;
+	}
+	
+	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_in) && $tag == 'extlink_amazon_in_buy') {
+	    // not supported
+	    $affbuyform = '';
+	} */
+	
+	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_it) && $tag == 'extlink_amazon_it_buy') {
+	    $affbuyform = <<<EOD
+<form method="POST" action="http://www.amazon.it/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<input type="hidden" name="asin.${ASIN}" value="1">
+<input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_it}">
+<input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_it}">
+<input type="image" name="submit.add-to-cart" value="Compra su Amazon.it" border="0" alt="Compra su Amazon.it" src="http://images.amazon.com/images/G/29/associates/buttons/buy5.gif">
+</form>
+EOD;
+
+	}
+	
+	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_mx) && $tag == 'extlink_amazon_mx_buy') {
+	    // not supported
+	    $affbuyform = '';
+	} */
+	
+    if (empty($affbuyform)) {
+        return ""; // eliminate this shortcode - no ASIN provided
     } else {
-        $ret = <<<END
-<form method="GET" action="http://${$affdomain}/gp/aws/cart/add.html"> <input type="hidden" name="AssociateTag" value="${$affcode}"/> <!-- input type="hidden" name="SubscriptionId" value="AWSAccessKeyId"/ --> <input type="hidden" name="ASIN.1" value="${ASIN}"/><br/> <input type="hidden" name="Quantity.1" value="1"/><br/> <input type="image" name="add" value="Buy from ${$affdomain}" border="0" alt="Buy from ${$affdomain}" src="http://${$affimgdomain}/images/G/01/associates/add-to-cart.gif"> </form>
-END;
-        return $ret;
+        return $affbuyform;
     }
     
 }
-add_shortcode('amazon_com_au_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_br_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_ca_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_cn_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_com_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_co_jp_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_co_uk_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_de_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_es_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_fr_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_in_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_it_buy', 'dh_nf_amazon_buy');
-add_shortcode('amazon_mx_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_com_au_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_br_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_ca_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_cn_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_com_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_co_jp_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_co_uk_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_de_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_es_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_fr_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_in_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_it_buy', 'dh_nf_amazon_buy');
+add_shortcode('extlink_amazon_mx_buy', 'dh_nf_amazon_buy');
 
 function dh_nf_domainEndsWith($haystack, $needle) {
 	// search forward starting from end minus needle length characters
