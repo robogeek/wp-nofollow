@@ -80,6 +80,7 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_extlink');
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_favicon');
 	
+	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_br');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_ca');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_cn');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_com');
@@ -91,6 +92,7 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_fr');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_in');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_it');
+	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_mx');
 	
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_id');
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_mids');
@@ -236,7 +238,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_com_au">
 							<strong><?php _e('Amazon.COM.AU (Australia) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_com_au"
 							   name="dh_nf_affproduct_amazon_com_au"
 							   type="text"
@@ -245,7 +247,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_br">
 							<strong><?php _e('Amazon.BR (Brazil) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_br"
 							   name="dh_nf_affproduct_amazon_br"
 							   type="text"
@@ -254,7 +256,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_ca">
 							<strong><?php _e('Amazon.CA (Canada) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_ca"
 							   name="dh_nf_affproduct_amazon_ca"
 							   type="text"
@@ -263,7 +265,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_cn">
 							<strong><?php _e('Amazon.CN (China) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_cn"
 							   name="dh_nf_affproduct_amazon_cn"
 							   type="text"
@@ -272,7 +274,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_com">
 							<strong><?php _e('Amazon.COM (USA) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_com"
 							   name="dh_nf_affproduct_amazon_com"
 							   type="text"
@@ -281,7 +283,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_co_jp">
 							<strong><?php _e('Amazon.CO.JP (Japan) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_co_jp"
 							   name="dh_nf_affproduct_amazon_co_jp"
 							   type="text"
@@ -290,7 +292,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_co_uk">
 							<strong><?php _e('Amazon.CO.UK (United Kingdom) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_co_uk"
 							   name="dh_nf_affproduct_amazon_co_uk"
 							   type="text"
@@ -299,7 +301,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_de">
 							<strong><?php _e('Amazon.DE (Germany) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_de"
 							   name="dh_nf_affproduct_amazon_de"
 							   type="text"
@@ -308,7 +310,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_es">
 							<strong><?php _e('Amazon.ES (Spain) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_es"
 							   name="dh_nf_affproduct_amazon_es"
 							   type="text"
@@ -317,7 +319,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_fr">
 							<strong><?php _e('Amazon.FR (France) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_fr"
 							   name="dh_nf_affproduct_amazon_fr"
 							   type="text"
@@ -326,7 +328,7 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_in">
 							<strong><?php _e('Amazon.IN (India) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_in"
 							   name="dh_nf_affproduct_amazon_in"
 							   type="text"
@@ -335,16 +337,46 @@ function dh_nf_option_page_fn() {
 						<div>
 						<label for="dh_nf_affproduct_amazon_it">
 							<strong><?php _e('Amazon.IT (Italy) Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_amazon_it"
 							   name="dh_nf_affproduct_amazon_it"
 							   type="text"
 							   value="<?php echo esc_attr($dh_nf_affproduct_amazon_it); ?>">
 						</div>
+						<div>
+						<label for="dh_nf_affproduct_amazon_mx">
+							<strong><?php _e('Amazon.MX (Mexico) Affiliate Code:'); ?></strong>
+						</label>
+						<input id="dh_nf_affproduct_amazon_mx"
+							   name="dh_nf_affproduct_amazon_mx"
+							   type="text"
+							   value="<?php echo esc_attr($dh_nf_affproduct_amazon_mx); ?>">
+						</div>
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
+						
+						<p>In addition to processing links, a shortcode is provided for creating an add-directly-to-shopping-cart button.  By assisting your readers to add products directly to their shopping cart, Amazon will insert a 90 day cookie in the readers browser as opposed to th 1 day cookie that's normally used.  Many claim this will expand your earning potential through Amazon.</p>
+						<p>The shortcode's supported are as follows.</p>
+						
+						<pre>
+Canada: [extlink_amazon_ca_buy asin="... the ASIN for a product ..."]
+
+USA: [extlink_amazon_com_buy asin="... the ASIN for a product ..."]
+
+Japan: [extlink_amazon_co_jp_buy asin="... the ASIN for a product ..."]
+
+United Kingdom: [extlink_amazon_co_uk_buy asin="... the ASIN for a product ..."]
+
+Germany: [extlink_amazon_de_buy asin="... the ASIN for a product ..."]
+
+Spain: [extlink_amazon_es_buy asin="... the ASIN for a product ..."]
+
+France: [extlink_amazon_fr_buy asin="... the ASIN for a product ..."]
+
+Italy: [extlink_amazon_it_buy asin="... the ASIN for a product ..."]
+						</pre>
                     </div>
                     <h3>Rakuten Affiliate Links</h3>
 					
@@ -353,7 +385,7 @@ function dh_nf_option_page_fn() {
 						<?php settings_fields('dh-nf-settings-rakuten'); ?>
 						
 						<div>
-						<label for="dh_nf_affproduct_rakuten_id"><strong><?php _e( 'Linkshare/Rakuten Affiliate Code:' ); ?></strong></label> 
+						<label for="dh_nf_affproduct_rakuten_id"><strong><?php _e( 'Linkshare/Rakuten Affiliate Code:' ); ?></strong></label>
 						<input id="dh_nf_affproduct_rakuten_id" name="dh_nf_affproduct_rakuten_id" type="text"
 							   value="<?php echo esc_attr($dh_nf_affproduct_rakuten_id); ?>">
 						</div>
@@ -407,7 +439,7 @@ shambhala.com 35631
 						<div>
 						<label for="dh_nf_affproduct_zazzle_id">
 							<strong><?php _e('Zazzle.com Affiliate Code:'); ?></strong>
-						</label> 
+						</label>
 						<input id="dh_nf_affproduct_zazzle_id"
 							   name="dh_nf_affproduct_zazzle_id"
 							   type="text"
