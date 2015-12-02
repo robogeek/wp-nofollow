@@ -94,6 +94,9 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_it');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_mx');
 	
+	register_setting('dh-nf-settings-amazon-buy-now', 'dh_nf_amazon_buynow_target');
+	register_setting('dh-nf-settings-amazon-buy-now', 'dh_nf_amazon_buynow_display');
+	
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_id');
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_mids');
 	
@@ -129,6 +132,9 @@ function dh_nf_option_page_fn() {
 	$dh_nf_affproduct_amazon_in     = get_option('dh_nf_affproduct_amazon_in');
 	$dh_nf_affproduct_amazon_it     = get_option('dh_nf_affproduct_amazon_it');
 	$dh_nf_affproduct_amazon_mx     = get_option('dh_nf_affproduct_amazon_mx');
+	
+	$dh_nf_amazon_buynow_target     = get_option('dh_nf_amazon_buynow_target');
+	$dh_nf_amazon_buynow_display    = get_option('dh_nf_amazon_buynow_display');
 	
 	$dh_nf_affproduct_rakuten_id    = get_option('dh_nf_affproduct_rakuten_id');
 	$dh_nf_affproduct_rakuten_mids  = get_option('dh_nf_affproduct_rakuten_mids');
@@ -356,8 +362,33 @@ function dh_nf_option_page_fn() {
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
+                    </div>
+                    
+                    <h3>Amazon 'Buy Now' buttons</h3>
+                    <div>
+						<form method="post" action="options.php" enctype="multipart/form-data">
+						<?php settings_fields('dh-nf-settings-amazon-buy-now'); ?>
 						
-						<p>In addition to processing links, a shortcode is provided for creating an add-directly-to-shopping-cart button.  By assisting your readers to add products directly to their shopping cart, Amazon will insert a 90 day cookie in the readers browser as opposed to th 1 day cookie that's normally used.  Many claim this will expand your earning potential through Amazon.</p>
+                        <p><input type="checkbox" name="dh_nf_amazon_buynow_target" value="_blank" <?php
+                        if (!empty($dh_nf_amazon_buynow_target) && $dh_nf_amazon_buynow_target === "_blank") {
+                            ?>checked<?php
+                        }
+                        ?> > Set target=_blank on 'Buy Now' buttons?</p>
+                        
+						<p>Display 'Buy Now' buttons inline?</p>
+                        <input type="radio" name="dh_nf_amazon_buynow_display" value="block" <?php
+                        if (!empty($dh_nf_amazon_buynow_display) && $dh_nf_amazon_buynow_display === "block") {
+                            ?>checked<?php
+                        }
+                        ?> >Block
+                        <input type="radio" name="dh_nf_amazon_buynow_display" value="inline" <?php
+                        if (!empty($dh_nf_amazon_buynow_display) && $dh_nf_amazon_buynow_display === "inline") {
+                            ?>checked<?php
+                        }
+                        ?> >Inline
+						<br/>
+						
+						<p>Shortcodes are provided for creating an add-directly-to-shopping-cart button.  By assisting your readers to add products directly to their shopping cart, it's claimed that Amazon will insert a 90 day cookie in the readers browser as opposed to the 1 day cookie that's normally used.  Many claim this will expand your earning potential through Amazon.</p>
 						<p>The shortcode's supported are as follows.</p>
 						
 						<pre>
@@ -377,7 +408,13 @@ France: [extlink_amazon_fr_buy asin="... the ASIN for a product ..."]
 
 Italy: [extlink_amazon_it_buy asin="... the ASIN for a product ..."]
 						</pre>
+						
+						<p class="submit">
+							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+						</p>
+						</form>
                     </div>
+                    
                     <h3>Rakuten Affiliate Links</h3>
 					
                     <div>

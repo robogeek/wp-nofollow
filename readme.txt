@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: nofollow, rel nofollow, nofollow external link, nofollow external links, nofollow links, rel=nofollow, nofollow content links, dofollow, external links, external link, external-links, link, links, target blank, affiliate links
 Requires at least: 4.0.1
 Tested up to: 4.4
-Stable tag: 1.4.4
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,10 @@ Simply search for this plugin from the plugins section of your blog admin, use a
 A manual installation can be done by downloading the plugin from its [github repository](https://github.com/robogeek/wp-nofollow).
 
 == Changelog ==
+
+= 1.5.0 =
+* Add class=extlink-icon to icons to ensure consistent icon size
+* Allow Amazon 'Buy Now' buttons to display inline
 
 = 1.4.4 =
 * Add shortcodes for Amazon direct-to-shopping-cart buttons

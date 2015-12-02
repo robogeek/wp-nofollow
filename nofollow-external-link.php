@@ -4,7 +4,7 @@
  Plugin Name: External & Affiliate Links Processor - affiliate links, nofollow, open in new tab, favicon
  Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
  Description: Process outbound (external) links in content, optionally adding affiliate link attributes, rel=nofollow or target=_blank attributes, and optionally adding icons.
- Version: 1.4.4
+ Version: 1.5.0
  Author: David Herron
  Author URI: http://davidherron.com/wordpress
  slug: external-links-nofollow
@@ -37,6 +37,11 @@ if (is_admin()) {
 	require_once DHNFDIR.'admin.php';
 }
 
+function dh_nf_add_stylesheet() {
+    wp_register_style('dhnf-style', DHNFURL.'style.css');
+    wp_enqueue_style('dhnf-style');
+}
+add_action('wp_enqueue_scripts', 'dh_nf_add_stylesheet');
 
 // Add this filter with low priority so it runs after
 // other filters, specifically shortcodes which might
@@ -161,6 +166,7 @@ function dh_nf_urlparse2($content) {
 			 && !$a->attributes->getNamedItem('data-no-favicon')
 			) {
 				$img = $html->createElement('img');
+				$img->setAttribute('class', 'extlink-icon');
 				$img->setAttribute('src', 'http://www.google.com/s2/favicons?domain=' . $urlParts['host']);
 				$img->setAttribute('style', 'display: inline-block; padding-right: 4px;');
 				if (empty($dh_nf_icons_before_after)
@@ -177,6 +183,7 @@ function dh_nf_urlparse2($content) {
 			 && $dh_nf_show_extlink === "show"
 			) {
 				$img = $html->createElement('img');
+				$img->setAttribute('class', 'extlink-icon');
 				$img->setAttribute('src', esc_url(plugins_url('images/extlink.png', __FILE__)));
 				if (empty($dh_nf_icons_before_after)
 				 || (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before")
@@ -294,23 +301,28 @@ function dh_nf_amazon_buy($atts, $content = "", $tag = 'extlink_amazon_com_buy')
 	$dh_nf_affproduct_amazon_it     = get_option('dh_nf_affproduct_amazon_it');
 	$dh_nf_affproduct_amazon_mx     = get_option('dh_nf_affproduct_amazon_mx');
 	
-	$dh_nf_target_blank = get_option('dh_nf_target_blank');
+	$dh_nf_amazon_buynow_target     = get_option('dh_nf_amazon_buynow_target');
+	$dh_nf_amazon_buynow_display    = get_option('dh_nf_amazon_buynow_display');
 	
 	$ASIN = '';
+	$displayAttr = '';
     foreach ($atts as $key => $value) {
         if ($key === 'asin') {
             $ASIN = $value;
-            continue;
         }
     }
     
     $targetBlank = '';
-	if (!empty($dh_nf_target_blank)
-	 && $dh_nf_target_blank === "_blank") {
+	if (!empty($dh_nf_amazon_buynow_target)
+	 && $dh_nf_amazon_buynow_target === "_blank") {
 		$targetBlank = ' target="_blank"';
 	}
 	
-    
+	$formDisplay = '';
+	if (!empty($dh_nf_amazon_buynow_display)) {
+	    $formDisplay = "style='display: ${dh_nf_amazon_buynow_display} !important'";
+	}
+	
 	$affbuyform = '';
 	
 	/* if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_com_au) && $tag == 'extlink_amazon_com_au_buy') {
@@ -325,7 +337,7 @@ function dh_nf_amazon_buy($atts, $content = "", $tag = 'extlink_amazon_com_buy')
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_ca) && $tag == 'extlink_amazon_ca_buy') {
 	    $affbuyform = <<<EOD
-<form method="GET" action="http://www.amazon.ca/gp/aws/cart/add.html"${targetBlank}>
+<form method="GET" action="http://www.amazon.ca/gp/aws/cart/add.html"${targetBlank}${formDisplay}>
 <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_ca}"/>
 <input type="hidden" name="ASIN.1" value="${ASIN}/"/>
 <input type="hidden" name="Quantity.1" value="1"/>
@@ -342,19 +354,19 @@ EOD;
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_com) && $tag == 'extlink_amazon_com_buy') {
 	    $affbuyform = <<<EOD
-<form method="GET" action="http://www.amazon.com/gp/aws/cart/add.html"${targetBlank}> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_com}"/> <!-- input type="hidden" name="SubscriptionId" value="AWSAccessKeyId"/ --> <input type="hidden" name="ASIN.1" value="${ASIN}"/> <input type="hidden" name="Quantity.1" value="1"/> <input type="image" name="add" value="Buy from Amazon.com" border="0" alt="Buy from Amazon.com" src="http://images.amazon.com/images/G/01/associates/add-to-cart.gif"> </form>
+<form method="GET" action="http://www.amazon.com/gp/aws/cart/add.html"${targetBlank}${formDisplay}> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_com}"/> <!-- input type="hidden" name="SubscriptionId" value="AWSAccessKeyId"/ --> <input type="hidden" name="ASIN.1" value="${ASIN}"/> <input type="hidden" name="Quantity.1" value="1"/> <input type="image" name="add" value="Buy from Amazon.com" border="0" alt="Buy from Amazon.com" src="http://images.amazon.com/images/G/01/associates/add-to-cart.gif"> </form>
 EOD;
 	}
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_co_jp) && $tag == 'extlink_amazon_co_jp_buy') {
 	    $affbuyform = <<<EOD
-<form method="post" action="http://www.amazon.co.jp/gp/aws/cart/add.html"${targetBlank}> <input type="hidden" name="ASIN.1" value="${ASIN}"> <input type="hidden" name="Quantity.1" value="1"> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_co_jp}"> <input type="image" name="submit.add-to-cart" src= "http://rcm-images.amazon.com/images/G/09/extranet/associates/buttons/remote-buy-jp1.gif" alt="buy in amazon.co.jp"> </form>
+<form method="post" action="http://www.amazon.co.jp/gp/aws/cart/add.html"${targetBlank}${formDisplay}> <input type="hidden" name="ASIN.1" value="${ASIN}"> <input type="hidden" name="Quantity.1" value="1"> <input type="hidden" name="AssociateTag" value="${dh_nf_affproduct_amazon_co_jp}"> <input type="image" name="submit.add-to-cart" src= "http://rcm-images.amazon.com/images/G/09/extranet/associates/buttons/remote-buy-jp1.gif" alt="buy in amazon.co.jp"> </form>
 EOD;
 	}
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_co_uk) && $tag == 'extlink_amazon_co_uk_buy') {
 	    $affbuyform = <<<EOD
-<form method="POST" action="http://www.amazon.co.uk/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<form method="POST" action="http://www.amazon.co.uk/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}${formDisplay}>
 <input type="hidden" name="asin.${ASIN}" value="1">
 <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_co_uk}">
 <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_co_uk}">
@@ -366,13 +378,13 @@ EOD;
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_de) && $tag == 'extlink_amazon_de_buy') {
 	    $affbuyform = <<<EOD
-<form method="POST" action="http://www.amazon.de/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_de}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_de}"> <input type="submit" name="submit.add-to-cart" value="bei Amazon.de kaufen"> </form>
+<form method="POST" action="http://www.amazon.de/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}${formDisplay}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_de}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_de}"> <input type="submit" name="submit.add-to-cart" value="bei Amazon.de kaufen"> </form>
 EOD;
 	}
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_es) && $tag == 'extlink_amazon_es_buy') {
 	    $affbuyform = <<<EOD
-<form method="POST" action="http://www.amazon.es/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<form method="POST" action="http://www.amazon.es/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}${formDisplay}>
 <input type="hidden" name="${ASIN}" value="1">
 <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_es}">
 <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_es}">
@@ -383,7 +395,7 @@ EOD;
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_fr) && $tag == 'extlink_amazon_fr_buy') {
 	    $affbuyform = <<<EOD
-<form method="POST" action="http://www.amazon.fr/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_fr}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_fr}">  <input type="submit" name="submit.add-to-cart" value="Achetez chez Amazon.fr"> </form>
+<form method="POST" action="http://www.amazon.fr/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}${formDisplay}> <input type="hidden" name="asin.${ASIN}" value="1"> <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_fr}"> <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_fr}">  <input type="submit" name="submit.add-to-cart" value="Achetez chez Amazon.fr"> </form>
 EOD;
 	}
 	
@@ -394,7 +406,7 @@ EOD;
 	
 	if (!empty($ASIN) && !empty($dh_nf_affproduct_amazon_it) && $tag == 'extlink_amazon_it_buy') {
 	    $affbuyform = <<<EOD
-<form method="POST" action="http://www.amazon.it/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}>
+<form method="POST" action="http://www.amazon.it/exec/obidos/dt/assoc/handle-buy-box=${ASIN}"${targetBlank}${formDisplay}>
 <input type="hidden" name="asin.${ASIN}" value="1">
 <input type="hidden" name="tag-value" value="${dh_nf_affproduct_amazon_it}">
 <input type="hidden" name="tag_value" value="${dh_nf_affproduct_amazon_it}">
@@ -410,7 +422,7 @@ EOD;
 	} */
 	
     if (empty($affbuyform)) {
-        return ""; // eliminate this shortcode - no ASIN provided
+        return ""; // eliminate this shortcode - not enough to support its display
     } else {
         return $affbuyform;
     }
