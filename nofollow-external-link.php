@@ -4,7 +4,7 @@
  Plugin Name: External & Affiliate Links Processor - affiliate links, nofollow, open in new tab, favicon
  Plugin URI: http://davidherron.com/content/external-links-nofollow-favicon-open-external-window-etc-wordpress
  Description: Process outbound (external) links in content, optionally adding affiliate link attributes, rel=nofollow or target=_blank attributes, and optionally adding icons.
- Version: 1.5.0
+ Version: 1.5.1
  Author: David Herron
  Author URI: http://davidherron.com/wordpress
  slug: external-links-nofollow

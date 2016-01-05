@@ -154,7 +154,7 @@ function dh_nf_option_page_fn() {
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-nofollow'); ?>
                 
-                        <p>By default all external (outbound) links will have rel=nofollow added.</p>
+                        <p>By default (nothing in either list) all external (outbound) links will have rel=nofollow added.  If you have a blacklist, the only domains to get rel=nofollow are the ones in the blacklist -- unless the domain is in the whitelist.  If you have no blacklist, then the whitelist domains do not receive rel=nofollow and every other domain does.</p>
                         
                         <div>
                             <strong>White list</strong>: Domains which will never have rel=nofollow
