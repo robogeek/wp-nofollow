@@ -4,12 +4,12 @@
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License, version 2, as
    published by the Free Software Foundation.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
-     
+
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -19,7 +19,7 @@ function dh_nf_admin_enqueue_scripts($hook) {
     global $wp_scripts;
     wp_enqueue_script('dhnf-admin', DHNFURL . 'js/admin.js', array('jquery-ui-accordion'));
     $queryui = $wp_scripts->query('jquery-ui-core');
-    $url = "https://ajax.googleapis.com/ajax/libs/jqueryui/" . $queryui->ver . "/themes/smoothness/jquery-ui.css";
+    $url = "//ajax.googleapis.com/ajax/libs/jqueryui/" . $queryui->ver . "/themes/smoothness/jquery-ui.css";
     wp_enqueue_style('jquery-ui-start', $url, false, null);
 }
 add_action('admin_enqueue_scripts', 'dh_nf_admin_enqueue_scripts');
@@ -33,13 +33,13 @@ function dh_nf_admin_sidebar() {
 
 	?>
 	<div class="dh_nf_admin_banner">
-		
+
     <p>To find out more about this plugin and other Wordpress-related work by David Herron,
-	visit <a href="http://davidherron.com/wordpress">his home page</a>.</p>
-	
+	visit <a href="https://davidherron.com/wordpress">his home page</a>.</p>
+
 	<p>I am very glad that you like this plugin.  Your support is greatly appreciated.
 	Please make a donation using the button below:</p>
-	
+
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 		<input type="hidden" name="cmd" value="_s-xclick">
 		<input type="hidden" name="hosted_button_id" value="NJUEG56USPC72">
@@ -79,7 +79,7 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-icons', 'dh_nf_icons_before_after');
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_extlink');
 	register_setting('dh-nf-settings-icons', 'dh_nf_show_favicon');
-	
+
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_br');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_ca');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_cn');
@@ -93,15 +93,15 @@ function register_dh_nf_settings() {
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_in');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_it');
 	register_setting('dh-nf-settings-amazon', 'dh_nf_affproduct_amazon_mx');
-	
+
 	register_setting('dh-nf-settings-amazon-buy-now', 'dh_nf_amazon_buynow_target');
 	register_setting('dh-nf-settings-amazon-buy-now', 'dh_nf_amazon_buynow_display');
-	
+
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_id');
 	register_setting('dh-nf-settings-rakuten', 'dh_nf_affproduct_rakuten_mids');
-	
+
 	register_setting('dh-nf-settings-zazzle', 'dh_nf_affproduct_zazzle_id');
-	
+
 }
 
 function dh_nf_plugin_menu() {
@@ -118,7 +118,7 @@ function dh_nf_option_page_fn() {
 	$dh_nf_target_blank = get_option('dh_nf_target_blank');
 	$dh_nf_show_extlink = get_option('dh_nf_show_extlink');
 	$dh_nf_show_favicon = get_option('dh_nf_show_favicon');
-	
+
 	$dh_nf_affproduct_amazon_com_au = get_option('dh_nf_affproduct_amazon_com_au');
 	$dh_nf_affproduct_amazon_br     = get_option('dh_nf_affproduct_amazon_br');
 	$dh_nf_affproduct_amazon_ca     = get_option('dh_nf_affproduct_amazon_ca');
@@ -132,30 +132,30 @@ function dh_nf_option_page_fn() {
 	$dh_nf_affproduct_amazon_in     = get_option('dh_nf_affproduct_amazon_in');
 	$dh_nf_affproduct_amazon_it     = get_option('dh_nf_affproduct_amazon_it');
 	$dh_nf_affproduct_amazon_mx     = get_option('dh_nf_affproduct_amazon_mx');
-	
+
 	$dh_nf_amazon_buynow_target     = get_option('dh_nf_amazon_buynow_target');
 	$dh_nf_amazon_buynow_display    = get_option('dh_nf_amazon_buynow_display');
-	
+
 	$dh_nf_affproduct_rakuten_id    = get_option('dh_nf_affproduct_rakuten_id');
 	$dh_nf_affproduct_rakuten_mids  = get_option('dh_nf_affproduct_rakuten_mids');
-	
+
 	$dh_nf_affproduct_zazzle_id     = get_option('dh_nf_affproduct_zazzle_id');
-	
+
 	?>
 	<div class="wrap">
 		<h2>External &amp; Affiliate Links Processor, rel=nofollow, open in new window, favicon</h2>
 		<div class="content_wrapper">
 			<div class="left">
-                    
+
                 <div id="accordion">
-                        
+
                     <h3>Control rel=nofollow</h3>
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-nofollow'); ?>
-                
+
                         <p>By default (nothing in either list) all external (outbound) links will have rel=nofollow added.  If you have a blacklist, the only domains to get rel=nofollow are the ones in the blacklist -- unless the domain is in the whitelist.  If you have no blacklist, then the whitelist domains do not receive rel=nofollow and every other domain does.</p>
-                        
+
                         <div>
                             <strong>White list</strong>: Domains which will never have rel=nofollow
                             <textarea name="dh_nf_whitelist_domains"
@@ -166,7 +166,7 @@ function dh_nf_option_page_fn() {
 							?></textarea>
                             <br /><em>Domain name <code>MUST BE</code> comma(,) separated. <!--<br />Example: facebook.com, google.com, youtube.com-->Don't need to add <code>http://</code> or <code>https://</code><br /><code>rel="nofollow"</code> will not added to "White List Domains"</em>
                         </div>
-                        
+
                         <div>
                             <strong>Black list</strong>: Domains which will always have rel=nofollow
                             <textarea name="dh_nf_blacklist_domains"
@@ -182,7 +182,7 @@ function dh_nf_option_page_fn() {
 						</p>
 						</form>
                     </div>
-					
+
                     <h3>Open links in new window/tab?</h3>
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
@@ -197,7 +197,7 @@ function dh_nf_option_page_fn() {
 						</p>
 						</form>
                     </div>
-                    
+
                     <h3>Show icon on external links?</h3>
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
@@ -207,16 +207,16 @@ function dh_nf_option_page_fn() {
                             ?>checked<?php
                         }
                         ?> > Show external link icon?
-						
+
 						<br/>
                         <input type="checkbox" name="dh_nf_show_favicon" value="show" <?php
                         if (!empty($dh_nf_show_favicon) && $dh_nf_show_favicon === "show") {
                             ?>checked<?php
                         }
                         ?> > Show favicon for destination site?
-						
+
 						<br/>
-                    
+
 						<p>Show icons before or after link?</p>
                         <input type="radio" name="dh_nf_icons_before_after" value="before" <?php
                         if (!empty($dh_nf_icons_before_after) && $dh_nf_icons_before_after === "before") {
@@ -229,15 +229,15 @@ function dh_nf_option_page_fn() {
                         }
                         ?> >After
 						<br/>
-                    
+
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
                     </div>
-					
+
                     <h3>Amazon Affiliate Links</h3>
-					
+
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-amazon'); ?>
@@ -363,18 +363,18 @@ function dh_nf_option_page_fn() {
 						</p>
 						</form>
                     </div>
-                    
+
                     <h3>Amazon 'Buy Now' buttons</h3>
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-amazon-buy-now'); ?>
-						
+
                         <p><input type="checkbox" name="dh_nf_amazon_buynow_target" value="_blank" <?php
                         if (!empty($dh_nf_amazon_buynow_target) && $dh_nf_amazon_buynow_target === "_blank") {
                             ?>checked<?php
                         }
                         ?> > Set target=_blank on 'Buy Now' buttons?</p>
-                        
+
 						<p>Display 'Buy Now' buttons inline?</p>
                         <input type="radio" name="dh_nf_amazon_buynow_display" value="block" <?php
                         if (!empty($dh_nf_amazon_buynow_display) && $dh_nf_amazon_buynow_display === "block") {
@@ -387,10 +387,10 @@ function dh_nf_option_page_fn() {
                         }
                         ?> >Inline
 						<br/>
-						
+
 						<p>Shortcodes are provided for creating an add-directly-to-shopping-cart button.  By assisting your readers to add products directly to their shopping cart, it's claimed that Amazon will insert a 90 day cookie in the readers browser as opposed to the 1 day cookie that's normally used.  Many claim this will expand your earning potential through Amazon.</p>
 						<p>The shortcode's supported are as follows.</p>
-						
+
 						<pre>
 Canada: [extlink_amazon_ca_buy asin="... the ASIN for a product ..."]
 
@@ -408,28 +408,28 @@ France: [extlink_amazon_fr_buy asin="... the ASIN for a product ..."]
 
 Italy: [extlink_amazon_it_buy asin="... the ASIN for a product ..."]
 						</pre>
-						
+
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
                     </div>
-                    
+
                     <h3>Rakuten Affiliate Links</h3>
-					
+
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-rakuten'); ?>
-						
+
 						<div>
 						<label for="dh_nf_affproduct_rakuten_id"><strong><?php _e( 'Linkshare/Rakuten Affiliate Code:' ); ?></strong></label>
 						<input id="dh_nf_affproduct_rakuten_id" name="dh_nf_affproduct_rakuten_id" type="text"
 							   value="<?php echo esc_attr($dh_nf_affproduct_rakuten_id); ?>">
 						</div>
-						
+
 						<p>Enter your Linkshare/Rakuten affiliate code.  To get this code:</p>
 						<ul style="list-style: disc; list-style-position: inside;">
-							<li>Sign up with the <a href="http://click.linksynergy.com/fs-bin/click?id=PPTIpcZ17qI&offerid=311675.10000156&type=3&subid=0&LSNSUBSITE=LSNSUBSITE">Rakuten Affiliate Marketing program</a></li>
+							<li>Sign up with the <a href="//click.linksynergy.com/fs-bin/click?id=PPTIpcZ17qI&offerid=311675.10000156&type=3&subid=0&LSNSUBSITE=LSNSUBSITE">Rakuten Affiliate Marketing program</a></li>
 							<li>Join one or more programs</li>
 							<li>Click on Programs => My Advertisers</li>
 							<li>Click on one of them, then click on Get Links</li>
@@ -438,11 +438,11 @@ Italy: [extlink_amazon_it_buy asin="... the ASIN for a product ..."]
 						</ul>
 						<p>Every link Rakuten generates for you has the same <tt>id=</tt> parameter.  It's different from the affiliate ID that shows elsewhere on the Rakuten dashboard.
 						</p>
-		
+
 						<textarea name="dh_nf_affproduct_rakuten_mids" width="100%" rows="10" cols="50"><?php
 							echo $dh_nf_affproduct_rakuten_mids;
 						?></textarea>
-						
+
 						<p>Enter Merchant ID's for the Rakuten programs you've joined.  For each program
 						add a line of text in the format "domain merchantID".
 						The simplest way to get the Merchant ID is that while viewing your
@@ -460,16 +460,16 @@ buy.com 36342
 shambhala.com 35631
 </pre>
 
-				
+
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
                     </div>
-					
-					
+
+
                     <h3>Zazzle Affiliate Links</h3>
-					
+
                     <div>
 						<form method="post" action="options.php" enctype="multipart/form-data">
 						<?php settings_fields('dh-nf-settings-zazzle'); ?>
@@ -482,22 +482,22 @@ shambhala.com 35631
 							   type="text"
 							   value="<?php echo esc_attr($dh_nf_affproduct_zazzle_id); ?>">
 						</div>
-						
+
 						<p>Enter your Associate ID code from Zazzle.  It's easy to get one - simply
-						<a href="https://www.zazzle.com/lgn/signin?rf=238131690118791619">sign up for a new account</a>,
+						<a href="//www.zazzle.com/lgn/signin?rf=238131690118791619">sign up for a new account</a>,
 						log into your account, then go to the
-						<a href="http://www.zazzle.com/my/associate/associate?rf=238131690118791619">Associate Center</a>.</p>
-						
+						<a href="//www.zazzle.com/my/associate/associate?rf=238131690118791619">Associate Center</a>.</p>
+
 						<p class="submit">
 							<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>
 						</form>
                     </div>
-					
-						
-                    
+
+
+
                 </div><!-- accordion -->
-                    
+
 			</div>
 			<div class="right">
 				<?php dh_nf_admin_sidebar(); ?>
