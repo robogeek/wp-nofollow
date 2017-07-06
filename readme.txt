@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: nofollow, rel nofollow, nofollow external link, nofollow external links, nofollow links, rel=nofollow, nofollow content links, dofollow, external links, external link, external-links, link, links, target blank, affiliate links
 Requires at least: 4.0.1
 Tested up to: 4.8
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,10 @@ Simply search for this plugin from the plugins section of your blog admin, use a
 A manual installation can be done by downloading the plugin from its [github repository](https://github.com/robogeek/wp-nofollow).
 
 == Changelog ==
+
+= 1.5.5 =
+* We must use that meta tag so text encoding transfers through correctly
+* Remove spurious HTML/BODY tags that are automagically inserted
 
 = 1.5.4 =
 * Remove spurious insertion of meta tag
